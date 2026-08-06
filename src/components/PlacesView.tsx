@@ -27,6 +27,7 @@ export const PlacesView: React.FC = () => {
   // Form state
   const [name, setName] = useState('');
   const [category, setCategory] = useState<PlaceItem['category']>('맛집');
+  const [recommendedBy, setRecommendedBy] = useState<string>(currentUser);
   const [address, setAddress] = useState('');
   const [mapUrl, setMapUrl] = useState('');
   const [notes, setNotes] = useState('');
@@ -63,6 +64,7 @@ export const PlacesView: React.FC = () => {
     setEditingPlace(null);
     setName('');
     setCategory('맛집');
+    setRecommendedBy(currentUser);
     setAddress('');
     setMapUrl('');
     setNotes('');
@@ -73,6 +75,7 @@ export const PlacesView: React.FC = () => {
     setEditingPlace(place);
     setName(place.name);
     setCategory(place.category);
+    setRecommendedBy(place.recommendedBy || currentUser);
     setAddress(place.address || '');
     setMapUrl(place.mapUrl || '');
     setNotes(place.notes || '');
@@ -92,6 +95,7 @@ export const PlacesView: React.FC = () => {
       await updatePlace(editingPlace.id, {
         name: name.trim(),
         category,
+        recommendedBy: recommendedBy || currentUser,
         address: address.trim(),
         mapUrl: finalMapUrl,
         notes: notes.trim(),
@@ -100,7 +104,7 @@ export const PlacesView: React.FC = () => {
       await addPlace({
         name: name.trim(),
         category,
-        recommendedBy: currentUser,
+        recommendedBy: recommendedBy || currentUser,
         address: address.trim(),
         mapUrl: finalMapUrl,
         notes: notes.trim(),
@@ -374,6 +378,23 @@ export const PlacesView: React.FC = () => {
                   <option value="카페">카페</option>
                   <option value="가볼만한 곳">가볼만한 곳</option>
                   <option value="숙소">숙소</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  추천한 사람 (담당자)
+                </label>
+                <select
+                  value={recommendedBy}
+                  onChange={(e) => setRecommendedBy(e.target.value)}
+                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500 bg-white font-medium"
+                >
+                  {['유옥', '현정', '권웅', '신혜', '다온'].map((name) => (
+                    <option key={name} value={name}>
+                      {name}
+                    </option>
+                  ))}
                 </select>
               </div>
 
