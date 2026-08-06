@@ -51,7 +51,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'checklist', label: '해야할 일 & 역할분담', icon: <CheckSquare className="w-5 h-5" /> },
     { id: 'schedule', label: '일정표', icon: <Calendar className="w-5 h-5" /> },
     { id: 'ideas', label: '아이디어 올리기', icon: <Lightbulb className="w-5 h-5" /> },
-    { id: 'places', label: '맛집/카페 리스트', icon: <MapPin className="w-5 h-5" /> },
+    { id: 'places', label: '장소 리스트', icon: <MapPin className="w-5 h-5" /> },
     { id: 'teams', label: '차량조 & 활동조', icon: <Users className="w-5 h-5" /> },
     { id: 'budget', label: '예산 관리', icon: <Wallet className="w-5 h-5" />, badge: '220만원' },
   ];

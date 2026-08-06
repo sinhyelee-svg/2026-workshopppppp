@@ -134,7 +134,7 @@ export const PlacesView: React.FC = () => {
       <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-lg font-bold text-slate-900 flex items-center space-x-2">
-            <span>🍱 맛집 / 카페 / 가볼만한 곳 / 숙소 리스트</span>
+            <span>📍 장소 리스트</span>
             <span className="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">
               총 {places.length}곳
             </span>
