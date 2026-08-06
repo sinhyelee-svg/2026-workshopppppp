@@ -1,4 +1,59 @@
-import { Task, ScheduleItem, IdeaItem, PlaceItem, GroupItem } from '../types';
+import { Task, ScheduleItem, IdeaItem, PlaceItem, GroupItem, BudgetItem } from '../types';
+
+export const TOTAL_BUDGET_LIMIT = 2200000; // 2,200,000 KRW (220만원)
+
+export const INITIAL_BUDGETS: Omit<BudgetItem, 'id'>[] = [
+  {
+    item: '숙소 대관료 (가평 독채 펜션)',
+    amount: 950000,
+    payer: '유옥',
+    category: '숙소',
+    date: '10/15',
+    notes: '사전 예약 완료 (14인 침실 & 대형 회의실 보유)',
+    order: 1,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    item: '1~3호차 유류비 & 톨게이트비 지원',
+    amount: 150000,
+    payer: '권웅',
+    category: '교통',
+    date: '10/18',
+    notes: '차량 3대 각각 5만원 지원',
+    order: 2,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    item: 'Day 1 점심 숯불 닭갈비 식당 예약금',
+    amount: 180000,
+    payer: '현정',
+    category: '식비',
+    date: '10/18',
+    notes: '14인 단체 예약금 선결제',
+    order: 3,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    item: '저녁 바베큐 재료 & 음료/주류 장보기',
+    amount: 280000,
+    payer: '신혜',
+    category: '식비',
+    date: '10/18',
+    notes: '삼겹살/목살 4kg, 소세지, 음료수, 쌈채소 등',
+    order: 4,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    item: '팀빌딩 레크레이션 상품 & 야식 간식',
+    amount: 90000,
+    payer: '다온',
+    category: '레크레이션',
+    date: '10/17',
+    notes: '퀴즈 우승 상품(모바일 쿠폰) & 밤샘 간식',
+    order: 5,
+    createdAt: new Date().toISOString(),
+  },
+];
 
 export const INITIAL_TASKS: Omit<Task, 'id'>[] = [
   {

@@ -98,4 +98,16 @@ export interface GroupItem {
   notes?: string;
 }
 
-export type ActiveTab = 'checklist' | 'schedule' | 'ideas' | 'places' | 'teams';
+export interface BudgetItem {
+  id: string;
+  item: string; // 항목
+  amount: number; // 금액
+  payer: MemberName | string; // 지출자
+  category: '숙소' | '식비' | '교통' | '레크레이션' | '간식' | '기타';
+  date?: string;
+  notes?: string;
+  order?: number;
+  createdAt?: string;
+}
+
+export type ActiveTab = 'checklist' | 'schedule' | 'ideas' | 'places' | 'teams' | 'budget';

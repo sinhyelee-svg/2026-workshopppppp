@@ -5,6 +5,7 @@ import {
   Lightbulb,
   MapPin,
   Users,
+  Wallet,
   Share2,
   RefreshCw,
   UserCheck,
@@ -45,6 +46,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenShareModal }) => {
     { id: 'ideas', label: '아이디어 올리기', icon: <Lightbulb className="w-4 h-4" /> },
     { id: 'places', label: '맛집/카페 리스트', icon: <MapPin className="w-4 h-4" /> },
     { id: 'teams', label: '차량조 & 활동조', icon: <Users className="w-4 h-4" /> },
+    { id: 'budget', label: '예산 관리', icon: <Wallet className="w-4 h-4" />, badge: '220만' },
   ];
 
   const currentMemberObj = WORKSHOP_MEMBERS.find((m) => m.id === currentUser);
@@ -61,7 +63,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenShareModal }) => {
           <div>
             <div className="flex items-center space-x-2">
               <h1 className="text-lg font-bold text-slate-900 tracking-tight">
-                14인 워크샵 준비 스페이스 ✨
+                2026 가을 워크샵 ✨
               </h1>
               <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-ping" />

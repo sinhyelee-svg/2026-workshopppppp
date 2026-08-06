@@ -5,6 +5,7 @@ import {
   Lightbulb,
   MapPin,
   Users,
+  Wallet,
   Share2,
   RefreshCw,
   UserCheck,
@@ -52,6 +53,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'ideas', label: '아이디어 올리기', icon: <Lightbulb className="w-5 h-5" /> },
     { id: 'places', label: '맛집/카페 리스트', icon: <MapPin className="w-5 h-5" /> },
     { id: 'teams', label: '차량조 & 활동조', icon: <Users className="w-5 h-5" /> },
+    { id: 'budget', label: '예산 관리', icon: <Wallet className="w-5 h-5" />, badge: '220만원' },
   ];
 
   const CORE_MANAGERS: MemberName[] = ['유옥', '현정', '권웅', '신혜', '다온'];
@@ -75,14 +77,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {isOpenMobile ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-xs">
+            <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white shadow-xs">
               <Sparkles className="w-4 h-4" />
             </div>
             <div>
               <h1 className="text-sm font-bold text-slate-900 tracking-tight leading-none">
-                WORKSHOP 2024 ✨
+                2026 가을 워크샵 ✨
               </h1>
-              <p className="text-[10px] text-slate-500 mt-0.5">14인 워크샵 스페이스</p>
+              <p className="text-[10px] text-slate-500 mt-0.5">워크샵 준비 스페이스</p>
             </div>
           </div>
         </div>
@@ -94,14 +96,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
             onClick={() => setShowUserDropdown(!showUserDropdown)}
             className="flex items-center space-x-1 px-2.5 py-1.5 bg-slate-100 rounded-lg text-xs font-semibold text-slate-700"
           >
-            <span className={`w-2 h-2 rounded-full ${currentMemberObj?.avatarBg || 'bg-indigo-500'}`} />
+            <span className={`w-2 h-2 rounded-full ${currentMemberObj?.avatarBg || 'bg-emerald-500'}`} />
             <span>{currentUser}</span>
           </button>
 
           <button
             type="button"
             onClick={onOpenShareModal}
-            className="p-1.5 bg-indigo-600 text-white rounded-lg text-xs font-semibold shadow-2xs"
+            className="p-1.5 bg-emerald-600 text-white rounded-lg text-xs font-semibold shadow-2xs"
             title="공유"
           >
             <Share2 className="w-4 h-4" />
@@ -127,15 +129,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* Brand Header */}
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-indigo-100">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-emerald-100">
                 <Sparkles className="w-5 h-5" />
               </div>
               <div>
-                <h1 className="text-base font-black text-indigo-600 tracking-tight leading-none">
-                  WORKSHOP 2024 ✨
+                <h1 className="text-base font-black text-emerald-600 tracking-tight leading-none">
+                  2026 가을 워크샵 ✨
                 </h1>
                 <p className="text-[11px] font-medium text-slate-400 mt-1">
-                  14인 워크샵 준비 공간
+                  워크샵 준비 공간
                 </p>
               </div>
             </div>
@@ -167,8 +169,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }}
                     className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-bold transition-all ${
                       isActive
-                        ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200 scale-[1.02]'
-                        : 'text-slate-700 hover:bg-slate-100/80 hover:text-indigo-600'
+                        ? 'bg-emerald-600 text-white shadow-md shadow-emerald-200 scale-[1.02]'
+                        : 'text-slate-700 hover:bg-slate-100/80 hover:text-emerald-600'
                     }`}
                   >
                     <div className="flex items-center space-x-3">
@@ -197,7 +199,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div className="flex items-center space-x-2.5 min-w-0">
                 <div
                   className={`w-7 h-7 rounded-full ${
-                    currentMemberObj?.avatarBg || 'bg-indigo-500'
+                    currentMemberObj?.avatarBg || 'bg-emerald-500'
                   } text-white flex items-center justify-center text-xs font-bold shrink-0`}
                 >
                   {currentUser[0]}
@@ -226,8 +228,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       setCurrentUser(m.id as MemberName);
                       setShowUserDropdown(false);
                     }}
-                    className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-indigo-50 transition ${
-                      currentUser === m.id ? 'bg-indigo-50 font-bold text-indigo-600' : 'text-slate-700'
+                    className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-emerald-50 transition ${
+                      currentUser === m.id ? 'bg-emerald-50 font-bold text-emerald-600' : 'text-slate-700'
                     }`}
                   >
                     <div className="flex items-center space-x-2">
@@ -246,7 +248,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <button
               type="button"
               onClick={onOpenShareModal}
-              className="flex-1 flex items-center justify-center space-x-1.5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-xs transition"
+              className="flex-1 flex items-center justify-center space-x-1.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs transition"
             >
               <Share2 className="w-3.5 h-3.5" />
               <span>Share & Sync</span>

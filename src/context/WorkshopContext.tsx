@@ -16,6 +16,7 @@ import {
   IdeaItem,
   PlaceItem,
   GroupItem,
+  BudgetItem,
   MemberName,
   WORKSHOP_MEMBERS,
   ActiveTab,
@@ -27,6 +28,7 @@ import {
   INITIAL_IDEAS,
   INITIAL_PLACES,
   INITIAL_GROUPS,
+  INITIAL_BUDGETS,
 } from '../data/initialData';
 
 interface WorkshopContextType {
@@ -44,6 +46,7 @@ interface WorkshopContextType {
   ideas: IdeaItem[];
   places: PlaceItem[];
   groups: GroupItem[];
+  budgets: BudgetItem[];
 
   // Sync state
   loading: boolean;
@@ -83,6 +86,11 @@ interface WorkshopContextType {
   removeMemberFromGroup: (groupId: string, memberName: MemberName) => Promise<void>;
   setDriverForCar: (groupId: string, driverName: string) => Promise<void>;
 
+  // Budget actions
+  addBudget: (item: Omit<BudgetItem, 'id'>) => Promise<void>;
+  updateBudget: (id: string, updates: Partial<BudgetItem>) => Promise<void>;
+  deleteBudget: (id: string) => Promise<void>;
+
   // Reset / Seed
   resetToInitialData: () => Promise<void>;
 }
@@ -108,6 +116,7 @@ export const WorkshopProvider: React.FC<{ children: React.ReactNode }> = ({
   const [ideas, setIdeas] = useState<IdeaItem[]>([]);
   const [places, setPlaces] = useState<PlaceItem[]>([]);
   const [groups, setGroups] = useState<GroupItem[]>([]);
+  const [budgets, setBudgets] = useState<BudgetItem[]>([]);
 
   const [loading, setLoading] = useState<boolean>(true);
   const [isOnline, setIsOnline] = useState<boolean>(true);
@@ -143,7 +152,22 @@ export const WorkshopProvider: React.FC<{ children: React.ReactNode }> = ({
           const docRef = doc(collection(db, 'groups'));
           batch.set(docRef, g);
         });
+        INITIAL_BUDGETS.forEach((b) => {
+          const docRef = doc(collection(db, 'budgets'));
+          batch.set(docRef, b);
+        });
         await batch.commit();
+      } else {
+        // Check if budgets collection specifically is empty and seed if needed
+        const budgetSnap = await getDocs(collection(db, 'budgets'));
+        if (budgetSnap.empty) {
+          const batch = writeBatch(db);
+          INITIAL_BUDGETS.forEach((b) => {
+            const docRef = doc(collection(db, 'budgets'));
+            batch.set(docRef, b);
+          });
+          await batch.commit();
+        }
       }
     } catch (err) {
       console.error('Error seeding initial Firestore data:', err);
@@ -208,12 +232,22 @@ export const WorkshopProvider: React.FC<{ children: React.ReactNode }> = ({
       setGroups(list);
     });
 
+    const unsubBudgets = onSnapshot(collection(db, 'budgets'), (snapshot) => {
+      const list: BudgetItem[] = snapshot.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...(docSnap.data() as Omit<BudgetItem, 'id'>),
+      }));
+      list.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+      setBudgets(list);
+    });
+
     return () => {
       unsubTasks();
       unsubSchedules();
       unsubIdeas();
       unsubPlaces();
       unsubGroups();
+      unsubBudgets();
     };
   }, []);
 
@@ -462,11 +496,39 @@ export const WorkshopProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  // Budget Actions
+  const addBudget = async (item: Omit<BudgetItem, 'id'>) => {
+    try {
+      await addDoc(collection(db, 'budgets'), {
+        ...item,
+        createdAt: new Date().toISOString(),
+      });
+    } catch (e) {
+      console.error('Error adding budget item:', e);
+    }
+  };
+
+  const updateBudget = async (id: string, updates: Partial<BudgetItem>) => {
+    try {
+      await updateDoc(doc(db, 'budgets', id), updates);
+    } catch (e) {
+      console.error('Error updating budget item:', e);
+    }
+  };
+
+  const deleteBudget = async (id: string) => {
+    try {
+      await deleteDoc(doc(db, 'budgets', id));
+    } catch (e) {
+      console.error('Error deleting budget item:', e);
+    }
+  };
+
   // Reset to initial data
   const resetToInitialData = async () => {
     try {
       setLoading(true);
-      const collections = ['tasks', 'schedules', 'ideas', 'places', 'groups'];
+      const collections = ['tasks', 'schedules', 'ideas', 'places', 'groups', 'budgets'];
       for (const colName of collections) {
         const snap = await getDocs(collection(db, colName));
         const batch = writeBatch(db);
@@ -490,6 +552,9 @@ export const WorkshopProvider: React.FC<{ children: React.ReactNode }> = ({
       INITIAL_GROUPS.forEach((g) => {
         batch.set(doc(collection(db, 'groups')), g);
       });
+      INITIAL_BUDGETS.forEach((b) => {
+        batch.set(doc(collection(db, 'budgets')), b);
+      });
       await batch.commit();
     } catch (e) {
       console.error('Error resetting data:', e);
@@ -510,6 +575,7 @@ export const WorkshopProvider: React.FC<{ children: React.ReactNode }> = ({
         ideas,
         places,
         groups,
+        budgets,
         loading,
         isOnline,
         assignTask,
@@ -532,6 +598,9 @@ export const WorkshopProvider: React.FC<{ children: React.ReactNode }> = ({
         assignMemberToGroup,
         removeMemberFromGroup,
         setDriverForCar,
+        addBudget,
+        updateBudget,
+        deleteBudget,
         resetToInitialData,
       }}
     >

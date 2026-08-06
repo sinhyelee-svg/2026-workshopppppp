@@ -127,7 +127,7 @@ export const ChecklistView: React.FC = () => {
           <div>
             <h2 className="text-lg font-bold text-slate-900 flex items-center space-x-2">
               <span>📋 역할 분담 & 체크리스트</span>
-              <span className="text-xs bg-indigo-100 text-indigo-700 px-2.5 py-0.5 rounded-full font-bold">
+              <span className="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">
                 {completedTasks}/{totalTasks} 완료
               </span>
             </h2>
@@ -136,7 +136,7 @@ export const ChecklistView: React.FC = () => {
           <button
             type="button"
             onClick={() => setShowAddModal(true)}
-            className="flex items-center space-x-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold shadow-xs transition shrink-0"
+            className="flex items-center space-x-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold shadow-xs transition shrink-0"
           >
             <Plus className="w-4 h-4" />
             <span>새 할 일 추가</span>
@@ -226,7 +226,7 @@ export const ChecklistView: React.FC = () => {
                 onDrop={(e) => handleDrop(e, task.id)}
                 className={`group relative bg-white rounded-2xl p-4 border transition-all duration-200 ${
                   isDragOver
-                    ? 'border-indigo-500 ring-4 ring-indigo-500/10 bg-indigo-50/40 scale-[1.01]'
+                    ? 'border-emerald-500 ring-4 ring-emerald-500/10 bg-emerald-50/40 scale-[1.01]'
                     : task.status === 'done'
                     ? 'border-slate-200/60 bg-slate-50/60 opacity-80'
                     : 'border-slate-200 hover:border-slate-300 shadow-2xs'
@@ -234,8 +234,8 @@ export const ChecklistView: React.FC = () => {
               >
                 {/* Drag over overlay hint */}
                 {isDragOver && (
-                  <div className="absolute inset-0 bg-indigo-600/10 rounded-2xl flex items-center justify-center border-2 border-dashed border-indigo-500 pointer-events-none z-10">
-                    <span className="bg-indigo-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-md flex items-center space-x-1.5">
+                  <div className="absolute inset-0 bg-emerald-600/10 rounded-2xl flex items-center justify-center border-2 border-dashed border-emerald-500 pointer-events-none z-10">
+                    <span className="bg-emerald-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-md flex items-center space-x-1.5">
                       <Sparkles className="w-3.5 h-3.5" />
                       <span>이 할 일에 담당자 배정하기</span>
                     </span>
@@ -257,7 +257,7 @@ export const ChecklistView: React.FC = () => {
                             : 'todo';
                         updateTaskStatus(task.id, nextStatus);
                       }}
-                      className="mt-0.5 text-slate-400 hover:text-indigo-600 transition shrink-0"
+                      className="mt-0.5 text-slate-400 hover:text-emerald-600 transition shrink-0"
                       title="상태 변경 (대기 -> 진행중 -> 완료)"
                     >
                       {task.status === 'done' ? (
@@ -308,13 +308,13 @@ export const ChecklistView: React.FC = () => {
                             type="text"
                             value={editingNotesText}
                             onChange={(e) => setEditingNotesText(e.target.value)}
-                            className="flex-1 px-2.5 py-1 text-xs border border-indigo-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                            className="flex-1 px-2.5 py-1 text-xs border border-emerald-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                             placeholder="메모를 입력하세요..."
                           />
                           <button
                             type="button"
                             onClick={() => handleSaveNotes(task.id)}
-                            className="px-2.5 py-1 bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-indigo-700"
+                            className="px-2.5 py-1 bg-emerald-600 text-white text-xs font-semibold rounded-lg hover:bg-emerald-700"
                           >
                             저장
                           </button>
@@ -335,7 +335,7 @@ export const ChecklistView: React.FC = () => {
                               setEditingNotesTaskId(task.id);
                               setEditingNotesText(task.notes || '');
                             }}
-                            className="text-slate-400 hover:text-indigo-600 opacity-0 group-hover:opacity-100 transition p-0.5"
+                            className="text-slate-400 hover:text-emerald-600 opacity-0 group-hover:opacity-100 transition p-0.5"
                             title="메모 수정"
                           >
                             <Edit2 className="w-3 h-3" />
@@ -395,7 +395,7 @@ export const ChecklistView: React.FC = () => {
                             type="button"
                             onClick={() => assignTask(task.id, m.name)}
                             className={`w-full text-left px-3 py-1.5 text-xs flex items-center space-x-2 hover:bg-slate-50 font-medium ${
-                              task.assignee === m.name ? 'font-bold text-indigo-600 bg-indigo-50' : 'text-slate-700'
+                              task.assignee === m.name ? 'font-bold text-emerald-600 bg-emerald-50' : 'text-slate-700'
                             }`}
                           >
                             <div className={`w-2 h-2 rounded-full ${m.avatarBg}`} />
@@ -410,7 +410,7 @@ export const ChecklistView: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => assignTask(task.id, currentUser)}
-                        className="px-2.5 py-1 text-[11px] font-semibold text-indigo-600 hover:bg-indigo-50 rounded-lg border border-indigo-200 transition"
+                        className="px-2.5 py-1 text-[11px] font-semibold text-emerald-600 hover:bg-emerald-50 rounded-lg border border-emerald-200 transition"
                         title="내가 이 할 일 맡기"
                       >
                         내 담당
@@ -452,7 +452,7 @@ export const ChecklistView: React.FC = () => {
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="예: 저녁 바베큐 재료 장보기 리스트 작성"
-                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
@@ -464,7 +464,7 @@ export const ChecklistView: React.FC = () => {
                   <select
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value)}
-                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-indigo-500 bg-white"
+                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500 bg-white"
                   >
                     {categories.filter((c) => c !== '전체').map((cat) => (
                       <option key={cat} value={cat}>
@@ -481,7 +481,7 @@ export const ChecklistView: React.FC = () => {
                   <select
                     value={newAssignee}
                     onChange={(e) => setNewAssignee(e.target.value as MemberName | '미정')}
-                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-indigo-500 bg-white"
+                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500 bg-white"
                   >
                     <option value="미정">미정</option>
                     {coreMembers.map((m) => (
@@ -502,7 +502,7 @@ export const ChecklistView: React.FC = () => {
                   value={newNotes}
                   onChange={(e) => setNewNotes(e.target.value)}
                   placeholder="참고사항을 입력해주세요..."
-                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
@@ -516,7 +516,7 @@ export const ChecklistView: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-xs transition"
+                  className="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-xs transition"
                 >
                   추가하기
                 </button>

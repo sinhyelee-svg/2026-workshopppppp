@@ -30,7 +30,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ onClose }) => {
         </button>
 
         <div className="flex items-center space-x-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
             <Share2 className="w-5 h-5" />
           </div>
           <div>
@@ -60,8 +60,8 @@ export const ShareModal: React.FC<ShareModalProps> = ({ onClose }) => {
               onClick={handleCopy}
               className={`px-4 py-2 text-xs font-bold rounded-xl flex items-center space-x-1.5 transition ${
                 copied
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                  ? 'bg-emerald-700 text-white'
+                  : 'bg-emerald-600 hover:bg-emerald-700 text-white'
               }`}
             >
               {copied ? (
@@ -83,7 +83,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ onClose }) => {
         <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-2">
           <div className="text-xs font-bold text-slate-700 flex items-center justify-between">
             <span>👥 같이 준비할 5인 멤버:</span>
-            <span className="text-[10px] text-indigo-600 font-semibold">
+            <span className="text-[10px] text-emerald-600 font-semibold">
               실시간 접속 중
             </span>
           </div>

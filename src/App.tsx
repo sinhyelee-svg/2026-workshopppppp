@@ -7,6 +7,7 @@ import { ScheduleView } from './components/ScheduleView';
 import { IdeasView } from './components/IdeasView';
 import { PlacesView } from './components/PlacesView';
 import { TeamsView } from './components/TeamsView';
+import { BudgetView } from './components/BudgetView';
 import { ShareModal } from './components/ShareModal';
 import { Loader2 } from 'lucide-react';
 
@@ -19,7 +20,7 @@ function MainContent() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
         <div className="text-center space-y-3">
-          <Loader2 className="w-8 h-8 text-indigo-600 animate-spin mx-auto" />
+          <Loader2 className="w-8 h-8 text-emerald-600 animate-spin mx-auto" />
           <p className="text-xs font-bold text-slate-600">
             Firebase Firestore 실시간 데이터 불러오는 중...
           </p>
@@ -49,12 +50,13 @@ function MainContent() {
           {activeTab === 'ideas' && <IdeasView />}
           {activeTab === 'places' && <PlacesView />}
           {activeTab === 'teams' && <TeamsView />}
+          {activeTab === 'budget' && <BudgetView />}
         </main>
 
         {/* Footer */}
         <footer className="bg-white border-t border-slate-200/80 py-4 px-6 text-center text-xs text-slate-400 mt-auto">
           <p>
-            WORKSHOP 2024 ✨ 14인 워크샵 준비 스페이스 &bull; Firebase Firestore 실시간 연동
+            2026 가을 워크샵 ✨ &bull; Firebase Firestore 실시간 연동
           </p>
         </footer>
       </div>
