@@ -1,0 +1,72 @@
+{
+  "entities": {
+    "tasks": {
+      "title": "Tasks",
+      "description": "Workshop task checklist",
+      "properties": {
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "assignee": { "type": "string" },
+        "status": { "type": "string" },
+        "notes": { "type": "string" },
+        "order": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["title", "status"]
+    },
+    "schedules": {
+      "title": "Schedules",
+      "description": "Itinerary timelines",
+      "properties": {
+        "day": { "type": "string" },
+        "time": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "location": { "type": "string" },
+        "category": { "type": "string" },
+        "order": { "type": "number" }
+      },
+      "required": ["day", "time", "title"]
+    },
+    "ideas": {
+      "title": "Ideas",
+      "description": "Workshop ideas and activities",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "author": { "type": "string" },
+        "category": { "type": "string" },
+        "votes": { "type": "array", "items": { "type": "string" } },
+        "color": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["title", "author"]
+    },
+    "places": {
+      "title": "Places",
+      "description": "Restaurants, cafes, and spots",
+      "properties": {
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "recommendedBy": { "type": "string" },
+        "address": { "type": "string" },
+        "mapUrl": { "type": "string" },
+        "notes": { "type": "string" },
+        "votes": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "category"]
+    },
+    "groups": {
+      "title": "Groups",
+      "description": "Car and Activity teams",
+      "properties": {
+        "type": { "type": "string" },
+        "groupName": { "type": "string" },
+        "members": { "type": "array", "items": { "type": "string" } },
+        "notes": { "type": "string" }
+      },
+      "required": ["type", "groupName"]
+    }
+  }
+}

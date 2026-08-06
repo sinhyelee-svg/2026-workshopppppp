@@ -1,0 +1,6 @@
+{
+  "name": "워크샵 준비 스페이스",
+  "description": "5인 워크샵 준비를 위한 실시간 협업 공간 (일정, 아이디어, 맛집/카페, 차량/활동 조 짜기, 역할분담 체크리스트)",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
