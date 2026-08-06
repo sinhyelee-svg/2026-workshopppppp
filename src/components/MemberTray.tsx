@@ -24,20 +24,20 @@ export const MemberTray: React.FC<MemberTrayProps> = ({ compact = false }) => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 text-white rounded-2xl p-4 shadow-lg mb-6 border border-emerald-900/40">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+    <div className="bg-white rounded-2xl p-4.5 shadow-2xs mb-6 border border-slate-200/90 space-y-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
         <div className="flex items-center space-x-2">
-          <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-          <h2 className="text-sm font-bold tracking-tight text-emerald-100 flex items-center space-x-1.5">
+          <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
+          <h2 className="text-sm font-bold tracking-tight text-slate-900 flex items-center space-x-1.5">
             <span>👥 전체 팀원 드래그 배정</span>
           </h2>
-          <span className="text-[11px] bg-emerald-800/60 text-emerald-200 px-2 py-0.5 rounded-full border border-emerald-700/50">
+          <span className="text-[11px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full border border-emerald-200 font-bold">
             {WORKSHOP_MEMBERS.length}명 참여
           </span>
         </div>
-        <p className="text-xs text-emerald-300 flex items-center space-x-1">
-          <Info className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-          <span>팀원 이름 태그를 **드래그**하여 차량조 및 활동조에 배정해주세요!</span>
+        <p className="text-xs text-slate-500 flex items-center space-x-1">
+          <Info className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+          <span>팀원 이름 태그를 **드래그**하여 체크리스트 및 작업에 손쉽게 배정해주세요!</span>
         </p>
       </div>
 
@@ -52,14 +52,14 @@ export const MemberTray: React.FC<MemberTrayProps> = ({ compact = false }) => {
               key={member.id}
               draggable
               onDragStart={(e) => handleDragStart(e, member.name)}
-              className={`group relative flex items-center justify-between p-2.5 rounded-xl cursor-grab active:cursor-grabbing select-none transition-all duration-200 border shadow-xs ${
+              className={`group relative flex items-center justify-between p-2 rounded-xl cursor-grab active:cursor-grabbing select-none transition-all duration-200 border ${
                 isCurrent
-                  ? 'bg-emerald-600/90 border-emerald-400/80 ring-2 ring-emerald-400/40 text-white'
-                  : 'bg-slate-800/80 hover:bg-slate-800 border-slate-700/60 hover:border-emerald-500/50 text-slate-200'
+                  ? 'bg-emerald-600 border-emerald-700 ring-2 ring-emerald-200 text-white shadow-xs'
+                  : 'bg-slate-50 hover:bg-emerald-50/70 border-slate-200 hover:border-emerald-300 text-slate-800'
               }`}
             >
               <div className="flex items-center space-x-2 min-w-0">
-                <GripVertical className="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-300 shrink-0" />
+                <GripVertical className={`w-3.5 h-3.5 shrink-0 ${isCurrent ? 'text-emerald-200' : 'text-slate-400 group-hover:text-emerald-600'}`} />
                 <div
                   className={`w-6 h-6 rounded-full ${member.avatarBg} flex items-center justify-center text-white text-[11px] font-bold shrink-0 shadow-2xs`}
                 >
@@ -77,9 +77,11 @@ export const MemberTray: React.FC<MemberTrayProps> = ({ compact = false }) => {
               {/* Task Count Badge */}
               <div
                 className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${
-                  taskCount > 0
-                    ? 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/30'
-                    : 'bg-slate-700/60 text-slate-400'
+                  isCurrent
+                    ? 'bg-emerald-700/80 text-emerald-100'
+                    : taskCount > 0
+                    ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                    : 'bg-slate-200/70 text-slate-500'
                 }`}
                 title={`담당 역할 ${taskCount}개`}
               >
