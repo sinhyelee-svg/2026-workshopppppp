@@ -98,7 +98,7 @@ export const TeamsView: React.FC = () => {
             <h2 className="text-lg font-bold text-slate-900">
               👥 14인 팀원 조 짜기 ({activeGroupType === 'car' ? '차량조' : '활동조'})
             </h2>
-            <span className="text-xs bg-indigo-100 text-indigo-800 px-2.5 py-0.5 rounded-full font-bold">
+            <span className="text-xs bg-emerald-100 text-emerald-800 border border-emerald-200 px-2.5 py-0.5 rounded-full font-bold">
               {currentGroups.length}개 {activeGroupType === 'car' ? '차량' : '활동 조'}
             </span>
           </div>
@@ -128,7 +128,7 @@ export const TeamsView: React.FC = () => {
               );
               setShowAddModal(true);
             }}
-            className="flex items-center space-x-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-xs transition"
+            className="flex items-center space-x-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs transition"
           >
             <Plus className="w-4 h-4" />
             <span>
@@ -145,7 +145,7 @@ export const TeamsView: React.FC = () => {
           onClick={() => setActiveGroupType('car')}
           className={`flex items-center space-x-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
             activeGroupType === 'car'
-              ? 'bg-indigo-600 text-white shadow-md shadow-indigo-100'
+              ? 'bg-emerald-600 text-white shadow-md shadow-emerald-100'
               : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
           }`}
         >
@@ -158,7 +158,7 @@ export const TeamsView: React.FC = () => {
           onClick={() => setActiveGroupType('activity')}
           className={`flex items-center space-x-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
             activeGroupType === 'activity'
-              ? 'bg-indigo-600 text-white shadow-md shadow-indigo-100'
+              ? 'bg-emerald-600 text-white shadow-md shadow-emerald-100'
               : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
           }`}
         >
@@ -192,7 +192,7 @@ export const TeamsView: React.FC = () => {
                     {/* Header */}
                     <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 flex items-center justify-between">
                       <div className="flex items-center space-x-2.5">
-                        <div className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-2xs">
+                        <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shadow-2xs">
                           🚘
                         </div>
                         <div>
@@ -224,12 +224,12 @@ export const TeamsView: React.FC = () => {
                     )}
 
                     {/* DRIVER SLOT */}
-                    <div className="p-3 rounded-xl border border-indigo-200 bg-indigo-50/60 space-y-2">
-                      <div className="flex items-center justify-between text-xs font-bold text-indigo-900">
+                    <div className="p-3 rounded-xl border border-emerald-200 bg-emerald-50/60 space-y-2">
+                      <div className="flex items-center justify-between text-xs font-bold text-emerald-900">
                         <span className="flex items-center space-x-1">
                           <span>🎯 운전자</span>
                         </span>
-                        <span className="text-[10px] bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded-full font-bold">
+                        <span className="text-[10px] bg-emerald-200 text-emerald-800 px-1.5 py-0.5 rounded-full font-bold">
                           운전석
                         </span>
                       </div>
@@ -237,7 +237,7 @@ export const TeamsView: React.FC = () => {
                       <select
                         value={driverName || '미정'}
                         onChange={(e) => setDriverForCar(group.id, e.target.value)}
-                        className="w-full text-xs font-bold bg-white border border-indigo-200 rounded-lg px-2.5 py-1.5 text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                        className="w-full text-xs font-bold bg-white border border-emerald-200 rounded-lg px-2.5 py-1.5 text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                       >
                         <option value="미정">운전자 선택 (미정)</option>
                         {WORKSHOP_MEMBERS.map((m) => (
@@ -273,7 +273,7 @@ export const TeamsView: React.FC = () => {
                               >
                                 <div
                                   className={`w-4 h-4 rounded-full ${
-                                    mInfo?.avatarBg || 'bg-indigo-500'
+                                    mInfo?.avatarBg || 'bg-emerald-500'
                                   } text-white flex items-center justify-center text-[9px]`}
                                 >
                                   {memberName[0]}
@@ -309,7 +309,7 @@ export const TeamsView: React.FC = () => {
                             key={m.id}
                             type="button"
                             onClick={() => assignMemberToGroup(m.name, group.id, 'car')}
-                            className="px-1.5 py-0.5 text-[10px] font-bold bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-md border border-slate-200 transition"
+                            className="px-1.5 py-0.5 text-[10px] font-bold bg-slate-100 hover:bg-emerald-50 hover:text-emerald-600 text-slate-600 rounded-md border border-slate-200 transition"
                           >
                             + {m.name}
                           </button>
@@ -348,7 +348,7 @@ export const TeamsView: React.FC = () => {
                         <h3 className="text-sm font-bold text-slate-900">
                           {group.groupName}
                         </h3>
-                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700">
+                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
                           {members.length}명
                         </span>
                       </div>
@@ -391,7 +391,7 @@ export const TeamsView: React.FC = () => {
                               <div className="flex items-center space-x-2">
                                 <div
                                   className={`w-4 h-4 rounded-full ${
-                                    mInfo?.avatarBg || 'bg-indigo-500'
+                                    mInfo?.avatarBg || 'bg-emerald-500'
                                   } text-white flex items-center justify-center text-[9px]`}
                                 >
                                   {memberName[0]}
@@ -427,7 +427,7 @@ export const TeamsView: React.FC = () => {
                             key={m.id}
                             type="button"
                             onClick={() => assignMemberToGroup(m.name, group.id, 'activity')}
-                            className="px-1.5 py-0.5 text-[10px] font-bold bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-md border border-slate-200 transition"
+                            className="px-1.5 py-0.5 text-[10px] font-bold bg-slate-100 hover:bg-emerald-50 hover:text-emerald-600 text-slate-600 rounded-md border border-slate-200 transition"
                           >
                             + {m.name}
                           </button>
@@ -463,7 +463,7 @@ export const TeamsView: React.FC = () => {
                   placeholder={
                     activeGroupType === 'car' ? '예: 4호차 (SUV)' : '예: 5조 (열정 조)'
                   }
-                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
@@ -475,7 +475,7 @@ export const TeamsView: React.FC = () => {
                   <select
                     value={driver}
                     onChange={(e) => setDriver(e.target.value)}
-                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-indigo-500 bg-white"
+                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500 bg-white"
                   >
                     <option value="미정">미정</option>
                     {WORKSHOP_MEMBERS.map((m) => (
@@ -496,7 +496,7 @@ export const TeamsView: React.FC = () => {
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="예: 트렁크 짐 보관 여유 있음"
-                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
@@ -510,7 +510,7 @@ export const TeamsView: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-xs transition"
+                  className="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-xs transition"
                 >
                   생성하기
                 </button>
