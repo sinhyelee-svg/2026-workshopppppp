@@ -8,17 +8,19 @@ import {
   Utensils,
   Coffee,
   Compass,
-  Star,
+  Building,
   Search,
   Filter,
+  Pencil,
 } from 'lucide-react';
 import { useWorkshop } from '../context/WorkshopContext';
 import { PlaceItem, WORKSHOP_MEMBERS } from '../types';
 
 export const PlacesView: React.FC = () => {
-  const { places, addPlace, votePlace, deletePlace, currentUser } = useWorkshop();
+  const { places, addPlace, updatePlace, votePlace, deletePlace, currentUser } = useWorkshop();
 
   const [showAddModal, setShowAddModal] = useState(false);
+  const [editingPlace, setEditingPlace] = useState<PlaceItem | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>('전체');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -29,7 +31,7 @@ export const PlacesView: React.FC = () => {
   const [mapUrl, setMapUrl] = useState('');
   const [notes, setNotes] = useState('');
 
-  const categories = ['전체', '맛집', '카페', '가볼만한 곳'];
+  const categories = ['전체', '맛집', '카페', '가볼만한 곳', '숙소'];
 
   const getCategoryIcon = (cat: PlaceItem['category']) => {
     switch (cat) {
@@ -39,6 +41,8 @@ export const PlacesView: React.FC = () => {
         return <Coffee className="w-3.5 h-3.5 text-rose-500" />;
       case '가볼만한 곳':
         return <Compass className="w-3.5 h-3.5 text-emerald-500" />;
+      case '숙소':
+        return <Building className="w-3.5 h-3.5 text-indigo-500" />;
     }
   };
 
@@ -50,10 +54,32 @@ export const PlacesView: React.FC = () => {
         return 'bg-rose-50 text-rose-700 border-rose-200';
       case '가볼만한 곳':
         return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+      case '숙소':
+        return 'bg-indigo-50 text-indigo-700 border-indigo-200';
     }
   };
 
-  const handleCreate = async (e: React.FormEvent) => {
+  const openNewModal = () => {
+    setEditingPlace(null);
+    setName('');
+    setCategory('맛집');
+    setAddress('');
+    setMapUrl('');
+    setNotes('');
+    setShowAddModal(true);
+  };
+
+  const openEditModal = (place: PlaceItem) => {
+    setEditingPlace(place);
+    setName(place.name);
+    setCategory(place.category);
+    setAddress(place.address || '');
+    setMapUrl(place.mapUrl || '');
+    setNotes(place.notes || '');
+    setShowAddModal(true);
+  };
+
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) return;
 
@@ -62,22 +88,33 @@ export const PlacesView: React.FC = () => {
       mapUrl.trim() ||
       `https://map.naver.com/v5/search/${encodeURIComponent(name.trim())}`;
 
-    await addPlace({
-      name: name.trim(),
-      category,
-      recommendedBy: currentUser,
-      address: address.trim(),
-      mapUrl: finalMapUrl,
-      notes: notes.trim(),
-      votes: [currentUser],
-      rating: 5,
-      createdAt: new Date().toISOString(),
-    });
+    if (editingPlace) {
+      await updatePlace(editingPlace.id, {
+        name: name.trim(),
+        category,
+        address: address.trim(),
+        mapUrl: finalMapUrl,
+        notes: notes.trim(),
+      });
+    } else {
+      await addPlace({
+        name: name.trim(),
+        category,
+        recommendedBy: currentUser,
+        address: address.trim(),
+        mapUrl: finalMapUrl,
+        notes: notes.trim(),
+        votes: [currentUser],
+        rating: 5,
+        createdAt: new Date().toISOString(),
+      });
+    }
 
     setName('');
     setAddress('');
     setMapUrl('');
     setNotes('');
+    setEditingPlace(null);
     setShowAddModal(false);
   };
 
@@ -97,19 +134,19 @@ export const PlacesView: React.FC = () => {
       <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-lg font-bold text-slate-900 flex items-center space-x-2">
-            <span>🍱 맛집 / 카페 / 가볼만한 곳 리스트</span>
+            <span>🍱 맛집 / 카페 / 가볼만한 곳 / 숙소 리스트</span>
             <span className="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">
               총 {places.length}곳
             </span>
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            워크샵 장소 주변의 추천 식당, 예쁜 카페, 관광 명소를 추천하고 투표해주세요!
+            워크샵 장소 주변의 추천 식당, 예쁜 카페, 숙소, 관광 명소를 추천하고 공유해 보세요!
           </p>
         </div>
 
         <button
           type="button"
-          onClick={() => setShowAddModal(true)}
+          onClick={openNewModal}
           className="flex items-center space-x-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold shadow-xs transition shrink-0"
         >
           <Plus className="w-4 h-4" />
@@ -159,12 +196,11 @@ export const PlacesView: React.FC = () => {
               등록된 장소가 없습니다.
             </p>
             <p className="text-xs text-slate-400 mt-1">
-              상단의 '장소 추천하기' 버튼을 눌러 맛집과 카페를 등록해 보세요!
+              상단의 '장소 추천하기' 버튼을 눌러 맛집, 카페, 숙소를 등록해 보세요!
             </p>
           </div>
         ) : (
           filteredPlaces.map((place) => {
-            const recommenderInfo = WORKSHOP_MEMBERS.find((m) => m.name === place.recommendedBy);
             const votes = place.votes || [];
             const hasVoted = votes.includes(currentUser);
 
@@ -232,7 +268,7 @@ export const PlacesView: React.FC = () => {
                   )}
                 </div>
 
-                {/* Footer: Voters & Upvote */}
+                {/* Footer: Voters & Actions */}
                 <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
                   {/* Voters */}
                   <div className="flex items-center space-x-1">
@@ -276,8 +312,17 @@ export const PlacesView: React.FC = () => {
 
                     <button
                       type="button"
+                      onClick={() => openEditModal(place)}
+                      className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition"
+                      title="장소 정보 수정"
+                    >
+                      <Pencil className="w-3.5 h-3.5" />
+                    </button>
+
+                    <button
+                      type="button"
                       onClick={() => deletePlace(place.id)}
-                      className="p-1.5 text-slate-300 hover:text-rose-600 hover:bg-slate-100 rounded-lg transition"
+                      className="p-1.5 text-slate-300 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
                       title="삭제"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -290,16 +335,18 @@ export const PlacesView: React.FC = () => {
         )}
       </div>
 
-      {/* Add Place Modal */}
+      {/* Add / Edit Place Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100">
             <h3 className="text-base font-bold text-slate-900 mb-4 flex items-center space-x-2">
               <Utensils className="w-5 h-5 text-emerald-600" />
-              <span>새 맛집 / 카페 / 장소 추천하기</span>
+              <span>
+                {editingPlace ? '✏️ 장소 정보 수정하기' : '✨ 새 맛집 / 카페 / 숙소 / 장소 추천하기'}
+              </span>
             </h3>
 
-            <form onSubmit={handleCreate} className="space-y-4">
+            <form onSubmit={handleSave} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
                   장소 이름 *
@@ -309,7 +356,7 @@ export const PlacesView: React.FC = () => {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="예: 가평 통나무 숯불닭갈비"
+                  placeholder="예: 가평 통나무 숯불닭갈비, 힐링 펜션"
                   className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
@@ -326,6 +373,7 @@ export const PlacesView: React.FC = () => {
                   <option value="맛집">맛집</option>
                   <option value="카페">카페</option>
                   <option value="가볼만한 곳">가볼만한 곳</option>
+                  <option value="숙소">숙소</option>
                 </select>
               </div>
 
@@ -363,7 +411,7 @@ export const PlacesView: React.FC = () => {
                   rows={2}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="추천하는 대표 메뉴나 주차 정보 등을 적어주세요..."
+                  placeholder="추천하는 대표 메뉴나 주차 정보, 객실 시설 등을 적어주세요..."
                   className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
@@ -371,7 +419,10 @@ export const PlacesView: React.FC = () => {
               <div className="flex space-x-2 pt-2">
                 <button
                   type="button"
-                  onClick={() => setShowAddModal(false)}
+                  onClick={() => {
+                    setShowAddModal(false);
+                    setEditingPlace(null);
+                  }}
                   className="flex-1 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition"
                 >
                   취소
@@ -380,7 +431,7 @@ export const PlacesView: React.FC = () => {
                   type="submit"
                   className="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-xs transition"
                 >
-                  등록하기
+                  {editingPlace ? '수정 완료' : '등록하기'}
                 </button>
               </div>
             </form>

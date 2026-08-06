@@ -73,6 +73,7 @@ interface WorkshopContextType {
 
   // Place actions
   addPlace: (place: Omit<PlaceItem, 'id'>) => Promise<void>;
+  updatePlace: (placeId: string, updates: Partial<PlaceItem>) => Promise<void>;
   votePlace: (placeId: string, memberName: MemberName) => Promise<void>;
   deletePlace: (placeId: string) => Promise<void>;
 
@@ -366,6 +367,14 @@ export const WorkshopProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const updatePlace = async (placeId: string, updates: Partial<PlaceItem>) => {
+    try {
+      await updateDoc(doc(db, 'places', placeId), updates);
+    } catch (e) {
+      console.error('Error updating place:', e);
+    }
+  };
+
   const votePlace = async (placeId: string, memberName: MemberName) => {
     try {
       const place = places.find((p) => p.id === placeId);
@@ -594,6 +603,7 @@ export const WorkshopProvider: React.FC<{ children: React.ReactNode }> = ({
         voteIdea,
         deleteIdea,
         addPlace,
+        updatePlace,
         votePlace,
         deletePlace,
         addGroup,

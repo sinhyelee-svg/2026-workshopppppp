@@ -78,7 +78,7 @@ export interface IdeaItem {
 export interface PlaceItem {
   id: string;
   name: string;
-  category: '맛집' | '카페' | '가볼만한 곳';
+  category: '맛집' | '카페' | '가볼만한 곳' | '숙소';
   recommendedBy: MemberName | string;
   address?: string;
   mapUrl?: string;

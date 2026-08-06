@@ -252,6 +252,17 @@ export const INITIAL_PLACES: Omit<PlaceItem, 'id'>[] = [
     createdAt: new Date().toISOString(),
   },
   {
+    name: '자라섬 힐링 독채 펜션 (숙소)',
+    category: '숙소',
+    recommendedBy: '유옥',
+    address: '경기 가평군 설악면 미사리로 789',
+    mapUrl: 'https://map.naver.com',
+    notes: '14인 침대 & 대형 거실, 독채 바베큐장, 회의용 빔프로젝트 완비',
+    votes: ['유옥', '현정', '신혜', '권웅'],
+    rating: 4.9,
+    createdAt: new Date().toISOString(),
+  },
+  {
     name: '자라섬 수목원 산책로',
     category: '가볼만한 곳',
     recommendedBy: '권웅',
