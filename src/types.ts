@@ -79,6 +79,7 @@ export interface PlaceItem {
   id: string;
   name: string;
   category: '맛집' | '카페' | '가볼만한 곳' | '숙소';
+  region?: '강릉' | '동해' | '삼척' | '기타' | string;
   recommendedBy: MemberName | string;
   address?: string;
   mapUrl?: string;
