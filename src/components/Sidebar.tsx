@@ -54,6 +54,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'teams', label: '차량조 & 활동조', icon: <Users className="w-5 h-5" /> },
   ];
 
+  const CORE_MANAGERS: MemberName[] = ['유옥', '현정', '권웅', '신혜', '다온'];
+  const managerMembers = WORKSHOP_MEMBERS.filter((m) =>
+    CORE_MANAGERS.includes(m.name as MemberName)
+  );
+
   const currentMemberObj = WORKSHOP_MEMBERS.find((m) => m.id === currentUser);
 
   return (
@@ -144,17 +149,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </button>
           </div>
 
-          {/* Sync Status Badge */}
-          <div className="bg-emerald-50 border border-emerald-200/80 rounded-2xl p-2.5 flex items-center justify-between text-xs text-emerald-800 font-semibold">
-            <div className="flex items-center space-x-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-              <span>Firestore 실시간 동기화</span>
-            </div>
-            <span className="text-[10px] bg-emerald-200/70 text-emerald-900 px-1.5 py-0.5 rounded font-black">
-              LIVE
-            </span>
-          </div>
-
           {/* NAVIGATION MENU LIST (LEFT SIDEBAR) */}
           <div className="space-y-1">
             <div className="px-3 py-1 text-[11px] font-black text-slate-400 tracking-wider uppercase">
@@ -222,9 +216,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {showUserDropdown && (
               <div className="absolute left-0 bottom-full mb-2 w-full bg-white rounded-2xl shadow-2xl border border-slate-200 py-2 z-50 max-h-60 overflow-y-auto">
                 <div className="px-3 py-1 text-[10px] font-bold text-slate-400 border-b border-slate-100 mb-1">
-                  내 이름 변경:
+                  담당자 변경 (5인):
                 </div>
-                {WORKSHOP_MEMBERS.map((m) => (
+                {managerMembers.map((m) => (
                   <button
                     key={m.id}
                     type="button"

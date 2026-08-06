@@ -40,8 +40,8 @@ function MainContent() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-          {/* Sticky Draggable Member Tray for Drag & Drop */}
-          <MemberTray />
+          {/* Sticky Draggable Member Tray for Drag & Drop - Only on Teams View */}
+          {activeTab === 'teams' && <MemberTray />}
 
           {/* Active Tab Views */}
           {activeTab === 'checklist' && <ChecklistView />}

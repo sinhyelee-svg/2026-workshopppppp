@@ -131,9 +131,6 @@ export const ChecklistView: React.FC = () => {
                 {completedTasks}/{totalTasks} 완료
               </span>
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">
-              팀원 이름 태그를 카드 위로 **드래그**하거나 담당자를 선택해 역할을 맡아주세요!
-            </p>
           </div>
 
           <button

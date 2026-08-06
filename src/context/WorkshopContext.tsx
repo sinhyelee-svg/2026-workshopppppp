@@ -98,7 +98,7 @@ export const WorkshopProvider: React.FC<{ children: React.ReactNode }> = ({
     if (saved && WORKSHOP_MEMBERS.some((m) => m.id === saved)) {
       return saved as MemberName;
     }
-    return '신혜';
+    return '유옥';
   });
 
   const [activeTab, setActiveTab] = useState<ActiveTab>('checklist');

@@ -55,7 +55,7 @@ export interface Task {
 
 export interface ScheduleItem {
   id: string;
-  day: 'Day 1' | 'Day 2' | 'Day 3';
+  day: 'Day 1' | 'Day 2';
   time: string;
   title: string;
   description?: string;

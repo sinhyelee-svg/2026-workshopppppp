@@ -70,11 +70,6 @@ export const MemberTray: React.FC<MemberTrayProps> = ({ compact = false }) => {
                     <span className="text-xs font-bold truncate">
                       {member.name}
                     </span>
-                    {isCurrent && (
-                      <span className="text-[9px] bg-indigo-400/30 text-indigo-100 px-1 py-0.2 rounded">
-                        나
-                      </span>
-                    )}
                   </div>
                 </div>
               </div>
