@@ -6,6 +6,8 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
+  getDoc,
+  setDoc,
   getDocs,
   writeBatch,
 } from 'firebase/firestore';
@@ -129,6 +131,15 @@ export const WorkshopProvider: React.FC<{ children: React.ReactNode }> = ({
   // Seed data function if Firestore is empty
   const checkAndSeedData = async () => {
     try {
+      const initDocRef = doc(db, 'system', 'initialized');
+      const initSnap = await getDoc(initDocRef);
+
+      // If system/initialized document exists, database seeding was already handled.
+      // Do not re-seed even if collections are emptied by user deletions!
+      if (initSnap.exists()) {
+        return;
+      }
+
       const tasksSnap = await getDocs(collection(db, 'tasks'));
       if (tasksSnap.empty) {
         const batch = writeBatch(db);
@@ -157,18 +168,10 @@ export const WorkshopProvider: React.FC<{ children: React.ReactNode }> = ({
           batch.set(docRef, b);
         });
         await batch.commit();
-      } else {
-        // Check if budgets collection specifically is empty and seed if needed
-        const budgetSnap = await getDocs(collection(db, 'budgets'));
-        if (budgetSnap.empty) {
-          const batch = writeBatch(db);
-          INITIAL_BUDGETS.forEach((b) => {
-            const docRef = doc(collection(db, 'budgets'));
-            batch.set(docRef, b);
-          });
-          await batch.commit();
-        }
       }
+
+      // Mark initialized so future deletions stay deleted
+      await setDoc(initDocRef, { initializedAt: new Date().toISOString() });
     } catch (err) {
       console.error('Error seeding initial Firestore data:', err);
     }
@@ -555,6 +558,7 @@ export const WorkshopProvider: React.FC<{ children: React.ReactNode }> = ({
       INITIAL_BUDGETS.forEach((b) => {
         batch.set(doc(collection(db, 'budgets')), b);
       });
+      batch.set(doc(db, 'system', 'initialized'), { initializedAt: new Date().toISOString() });
       await batch.commit();
     } catch (e) {
       console.error('Error resetting data:', e);
