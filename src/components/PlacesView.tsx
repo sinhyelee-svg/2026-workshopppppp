@@ -23,7 +23,7 @@ export const PlacesView: React.FC = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingPlace, setEditingPlace] = useState<PlaceItem | null>(null);
 
-  // Filters
+  // Region, Category & Search Filters
   const [filterRegion, setFilterRegion] = useState<string>('전체');
   const [filterCategory, setFilterCategory] = useState<string>('전체');
   const [searchQuery, setSearchQuery] = useState('');
@@ -80,7 +80,6 @@ export const PlacesView: React.FC = () => {
           cardBg: 'bg-gradient-to-br from-blue-50/90 to-sky-50/60 border-blue-200 hover:border-blue-300',
           badgeBg: 'bg-blue-600 text-white border-blue-700',
           badgeText: '🌊 강릉',
-          tagBg: 'bg-blue-100 text-blue-800 border-blue-200',
           accentColor: 'text-blue-900',
         };
       case '동해':
@@ -88,7 +87,6 @@ export const PlacesView: React.FC = () => {
           cardBg: 'bg-gradient-to-br from-teal-50/90 to-emerald-50/60 border-teal-200 hover:border-teal-300',
           badgeBg: 'bg-teal-600 text-white border-teal-700',
           badgeText: '🌅 동해',
-          tagBg: 'bg-teal-100 text-teal-800 border-teal-200',
           accentColor: 'text-teal-900',
         };
       case '삼척':
@@ -96,7 +94,6 @@ export const PlacesView: React.FC = () => {
           cardBg: 'bg-gradient-to-br from-amber-50/90 to-orange-50/60 border-amber-200 hover:border-amber-300',
           badgeBg: 'bg-amber-600 text-white border-amber-700',
           badgeText: '🏖️ 삼척',
-          tagBg: 'bg-amber-100 text-amber-800 border-amber-200',
           accentColor: 'text-amber-900',
         };
       default:
@@ -104,7 +101,6 @@ export const PlacesView: React.FC = () => {
           cardBg: 'bg-gradient-to-br from-slate-50 to-indigo-50/40 border-slate-200 hover:border-slate-300',
           badgeBg: 'bg-indigo-600 text-white border-indigo-700',
           badgeText: '📍 기타',
-          tagBg: 'bg-indigo-100 text-indigo-800 border-indigo-200',
           accentColor: 'text-slate-900',
         };
     }
@@ -138,7 +134,6 @@ export const PlacesView: React.FC = () => {
     e.preventDefault();
     if (!name.trim()) return;
 
-    // Default search link if mapUrl not provided
     const finalMapUrl =
       mapUrl.trim() ||
       `https://map.naver.com/v5/search/${encodeURIComponent(name.trim())}`;
@@ -193,13 +188,13 @@ export const PlacesView: React.FC = () => {
       <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-lg font-bold text-slate-900 flex items-center space-x-2">
-            <span>📍 장소 리스트</span>
+            <span>📍 추천 장소 목록</span>
             <span className="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">
               총 {places.length}곳
             </span>
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            강릉, 동해, 삼척 지역별 추천 맛집, 예쁜 카페, 숙소, 명소를 추천하고 공유해 보세요!
+            강릉, 동해, 삼척 권역별 맛집, 카페, 숙소, 가볼만한 곳을 등록하고 확인해 보세요!
           </p>
         </div>
 
@@ -215,9 +210,9 @@ export const PlacesView: React.FC = () => {
 
       {/* Filter and Search Bar */}
       <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-2xs space-y-3">
-        {/* Region Filters */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex items-center space-x-2 overflow-x-auto py-0.5 no-scrollbar">
+          {/* Region Filters ("지역별 카테고리") */}
+          <div className="flex items-center space-x-1.5 overflow-x-auto py-0.5 no-scrollbar">
             <span className="text-xs font-bold text-slate-500 shrink-0 flex items-center space-x-1 mr-1">
               <Globe className="w-3.5 h-3.5 text-emerald-600" />
               <span>지역:</span>
@@ -243,7 +238,6 @@ export const PlacesView: React.FC = () => {
             ))}
           </div>
 
-          {/* Search Input */}
           <div className="relative w-full sm:w-60 shrink-0">
             <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
             <input
@@ -260,7 +254,7 @@ export const PlacesView: React.FC = () => {
         <div className="flex items-center space-x-1.5 overflow-x-auto pt-2 border-t border-slate-100 no-scrollbar">
           <span className="text-xs font-bold text-slate-500 shrink-0 flex items-center space-x-1 mr-1">
             <Filter className="w-3.5 h-3.5 text-slate-400" />
-            <span>분류:</span>
+            <span>구분:</span>
           </span>
           {categories.map((cat) => (
             <button
@@ -287,7 +281,7 @@ export const PlacesView: React.FC = () => {
               해당 조건의 장소가 없습니다.
             </p>
             <p className="text-xs text-slate-400 mt-1">
-              상단의 '장소 추천하기' 버튼을 눌러 강릉, 동해, 삼척 맛집이나 숙소를 추가해 보세요!
+              상단의 '장소 추천하기' 버튼을 눌러 맛집이나 숙소를 추가해 보세요!
             </p>
           </div>
         ) : (
@@ -299,18 +293,16 @@ export const PlacesView: React.FC = () => {
             return (
               <div
                 key={place.id}
-                className={`group rounded-2xl p-5 border transition duration-200 flex flex-col justify-between ${theme.cardBg}`}
+                className={`group rounded-2xl p-5 border transition duration-200 flex flex-col justify-between relative hover:shadow-md ${theme.cardBg}`}
               >
                 <div>
-                  {/* Region & Category Badges & Recommender */}
+                  {/* Region & Category Badges */}
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center space-x-1.5">
-                      {/* Region Tag */}
                       <span className={`text-[10px] px-2 py-0.5 rounded-md shadow-2xs font-bold ${theme.badgeBg}`}>
                         {theme.badgeText}
                       </span>
 
-                      {/* Category Tag */}
                       <span
                         className={`flex items-center space-x-1 text-[10px] font-bold px-2 py-0.5 rounded-md border ${getCategoryBadge(
                           place.category
@@ -320,21 +312,11 @@ export const PlacesView: React.FC = () => {
                         <span>{place.category}</span>
                       </span>
                     </div>
-
-                    <div
-                      className="flex items-center space-x-1 bg-white/80 backdrop-blur-xs px-2 py-0.5 rounded-full text-[10px] font-semibold text-slate-600 border border-slate-200/60"
-                      title="추천인"
-                    >
-                      <span>추천:</span>
-                      <span className="font-bold text-slate-900">
-                        {place.recommendedBy}
-                      </span>
-                    </div>
                   </div>
 
-                  {/* Name & Map Link */}
+                  {/* Name & Naver Map Action */}
                   <div className="flex items-start justify-between gap-2 mb-2">
-                    <h3 className={`text-base font-bold transition ${theme.accentColor}`}>
+                    <h3 className={`text-base font-bold ${theme.accentColor}`}>
                       {place.name}
                     </h3>
 
@@ -343,11 +325,11 @@ export const PlacesView: React.FC = () => {
                         href={place.mapUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center space-x-1 px-2 py-1 bg-white/80 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 text-[10px] font-bold rounded-lg border border-slate-200/80 transition shrink-0 shadow-2xs"
-                        title="지도에서 열기"
+                        className="flex items-center space-x-1 px-2.5 py-1 bg-white/90 hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 text-[11px] font-bold rounded-xl border border-slate-200 transition shadow-2xs shrink-0"
+                        title="네이버 지도에서 위치 보기"
                       >
-                        <MapPin className="w-3 h-3 text-emerald-600" />
-                        <span>지도</span>
+                        <MapPin className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>지도보기</span>
                         <ExternalLink className="w-2.5 h-2.5 text-slate-400" />
                       </a>
                     )}
@@ -370,8 +352,10 @@ export const PlacesView: React.FC = () => {
 
                 {/* Footer: Voters & Actions */}
                 <div className="pt-3 border-t border-slate-200/60 flex items-center justify-between">
-                  {/* Voters */}
                   <div className="flex items-center space-x-1">
+                    <span className="text-[10px] text-slate-500 font-medium mr-1">
+                      추천: <strong>{place.recommendedBy}</strong>
+                    </span>
                     <div className="flex -space-x-1.5 overflow-hidden">
                       {votes.map((voter) => (
                         <div
@@ -390,7 +374,6 @@ export const PlacesView: React.FC = () => {
                     )}
                   </div>
 
-                  {/* Actions */}
                   <div className="flex items-center space-x-1">
                     <button
                       type="button"
@@ -409,7 +392,7 @@ export const PlacesView: React.FC = () => {
                       type="button"
                       onClick={() => openEditModal(place)}
                       className="p-1.5 text-slate-500 hover:text-emerald-700 hover:bg-white rounded-lg transition"
-                      title="장소 정보 수정"
+                      title="정보 수정"
                     >
                       <Pencil className="w-3.5 h-3.5" />
                     </button>
@@ -433,11 +416,11 @@ export const PlacesView: React.FC = () => {
       {/* Add / Edit Place Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100">
-            <h3 className="text-base font-bold text-slate-900 mb-4 flex items-center space-x-2">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto space-y-4">
+            <h3 className="text-base font-bold text-slate-900 flex items-center space-x-2">
               <Utensils className="w-5 h-5 text-emerald-600" />
               <span>
-                {editingPlace ? '✏️ 장소 정보 수정하기' : '✨ 새 맛집 / 카페 / 숙소 / 장소 추천하기'}
+                {editingPlace ? '✏️ 장소 정보 수정' : '✨ 새 추천 장소 등록'}
               </span>
             </h3>
 
@@ -479,42 +462,9 @@ export const PlacesView: React.FC = () => {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="예: 강릉 중앙시장 닭강정, 동해 대게, 삼척 리조트"
+                  placeholder="예: 강릉 초당순두부 마을, 동해 촛대바위, 삼척 쏠비치"
                   className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                 />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  구분
-                </label>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value as any)}
-                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500 bg-white"
-                >
-                  <option value="맛집">맛집</option>
-                  <option value="카페">카페</option>
-                  <option value="가볼만한 곳">가볼만한 곳</option>
-                  <option value="숙소">숙소</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  추천한 사람 (담당자)
-                </label>
-                <select
-                  value={recommendedBy}
-                  onChange={(e) => setRecommendedBy(e.target.value)}
-                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500 bg-white font-medium"
-                >
-                  {['유옥', '현정', '권웅', '신혜', '다온'].map((n) => (
-                    <option key={n} value={n}>
-                      {n}
-                    </option>
-                  ))}
-                </select>
               </div>
 
               <div>
@@ -525,20 +475,55 @@ export const PlacesView: React.FC = () => {
                   type="text"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  placeholder="예: 강원 강릉시 경포로 123"
+                  placeholder="예: 강원 강릉시 초당순두부길 77"
                   className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    구분
+                  </label>
+                  <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value as any)}
+                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500 bg-white font-medium"
+                  >
+                    <option value="맛집">맛집</option>
+                    <option value="카페">카페</option>
+                    <option value="가볼만한 곳">가볼만한 곳</option>
+                    <option value="숙소">숙소</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    추천한 사람
+                  </label>
+                  <select
+                    value={recommendedBy}
+                    onChange={(e) => setRecommendedBy(e.target.value)}
+                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500 bg-white font-medium"
+                  >
+                    {['유옥', '현정', '권웅', '신혜', '다온'].map((n) => (
+                      <option key={n} value={n}>
+                        {n}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
-                  네이버 / 카카오 지도 링크 (선택)
+                  네이버 지도 / 카카오 지도 링크 (예: https://naver.me/xuchnkpo)
                 </label>
                 <input
                   type="url"
                   value={mapUrl}
                   onChange={(e) => setMapUrl(e.target.value)}
-                  placeholder="https://map.naver.com/..."
+                  placeholder="https://naver.me/xuchnkpo"
                   className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
@@ -551,12 +536,12 @@ export const PlacesView: React.FC = () => {
                   rows={2}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="추천하는 대표 메뉴나 주차 정보, 객실 시설 등을 적어주세요..."
+                  placeholder="추천하는 대표 메뉴나 주차 정보, 특이사항 등을 적어주세요..."
                   className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
-              <div className="flex space-x-2 pt-2">
+              <div className="flex space-x-2 pt-2 border-t border-slate-100">
                 <button
                   type="button"
                   onClick={() => {
