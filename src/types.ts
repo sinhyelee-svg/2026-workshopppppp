@@ -82,6 +82,8 @@ export interface PlaceItem {
   region?: '강릉' | '동해' | '삼척' | '기타' | string;
   recommendedBy: MemberName | string;
   address?: string;
+  lat?: number;
+  lng?: number;
   mapUrl?: string;
   notes?: string;
   votes: string[]; // member names
