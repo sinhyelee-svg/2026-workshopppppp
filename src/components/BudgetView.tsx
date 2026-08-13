@@ -210,7 +210,7 @@ export const BudgetView: React.FC = () => {
                 </span>
               </div>
               <p className="text-xs text-slate-500 mt-0.5">
-                총 가용 예산 220만원 대비 현재 지출 및 남아있는 예산을 실시간으로 정산합니다.
+                총 가용 예산 250만원 대비 현재 지출 및 남아있는 예산을 실시간으로 정산합니다.
               </p>
             </div>
           </div>
@@ -236,7 +236,7 @@ export const BudgetView: React.FC = () => {
               <p className="text-xl font-extrabold text-slate-900 mt-1 font-mono">
                 {TOTAL_BUDGET_LIMIT.toLocaleString()}원
               </p>
-              <p className="text-[10px] text-slate-500 mt-0.5">220만원 지원 예산</p>
+              <p className="text-[10px] text-slate-500 mt-0.5">워크숍 예산 220만원 / 팀장님 업무추진비 30만원</p>
             </div>
             <div className="w-10 h-10 rounded-xl bg-slate-200/70 flex items-center justify-center text-slate-700">
               <DollarSign className="w-5 h-5" />
@@ -557,7 +557,7 @@ export const BudgetView: React.FC = () => {
                     {filteredTotal.toLocaleString()}원
                   </td>
                   <td colSpan={3} className="py-3 px-4 text-xs text-slate-500 font-normal">
-                    (가용 예산 220만원 중 {((filteredTotal / TOTAL_BUDGET_LIMIT) * 100).toFixed(1)}% 해당)
+                    (가용 예산 250만원 중 {((filteredTotal / TOTAL_BUDGET_LIMIT) * 100).toFixed(1)}% 해당)
                   </td>
                 </tr>
               </tfoot>

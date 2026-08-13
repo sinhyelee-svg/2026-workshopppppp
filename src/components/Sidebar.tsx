@@ -53,7 +53,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'ideas', label: '아이디어 올리기', icon: <Lightbulb className="w-5 h-5" /> },
     { id: 'places', label: '장소 리스트', icon: <MapPin className="w-5 h-5" /> },
     { id: 'teams', label: '차량조 & 활동조', icon: <Users className="w-5 h-5" /> },
-    { id: 'budget', label: '예산 관리', icon: <Wallet className="w-5 h-5" />, badge: '220만원' },
+    { id: 'budget', label: '예산 관리', icon: <Wallet className="w-5 h-5" />, badge: '250만원' },
   ];
 
   const CORE_MANAGERS: MemberName[] = ['유옥', '현정', '권웅', '신혜', '다온'];
