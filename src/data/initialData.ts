@@ -1,6 +1,6 @@
 import { Task, ScheduleItem, IdeaItem, PlaceItem, GroupItem, BudgetItem } from '../types';
 
-export const TOTAL_BUDGET_LIMIT = 2200000; // 2,200,000 KRW (220만원)
+export const TOTAL_BUDGET_LIMIT = 2500000; // 2,500,000 KRW (250만원)
 
 export const INITIAL_BUDGETS: Omit<BudgetItem, 'id'>[] = [
   {

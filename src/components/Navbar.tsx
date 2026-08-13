@@ -46,7 +46,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenShareModal }) => {
     { id: 'ideas', label: '아이디어 올리기', icon: <Lightbulb className="w-4 h-4" /> },
     { id: 'places', label: '맛집/카페 리스트', icon: <MapPin className="w-4 h-4" /> },
     { id: 'teams', label: '차량조 & 활동조', icon: <Users className="w-4 h-4" /> },
-    { id: 'budget', label: '예산 관리', icon: <Wallet className="w-4 h-4" />, badge: '220만' },
+    { id: 'budget', label: '예산 관리', icon: <Wallet className="w-4 h-4" />, badge: '250만' },
   ];
 
   const currentMemberObj = WORKSHOP_MEMBERS.find((m) => m.id === currentUser);
