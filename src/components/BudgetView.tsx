@@ -367,7 +367,7 @@ export const BudgetView: React.FC = () => {
                 <p className="text-xl font-extrabold text-slate-900 mt-1 font-mono">
                   {TOTAL_BUDGET_LIMIT.toLocaleString()}원
                 </p>
-                <p className="text-[10px] text-slate-400 mt-0.5">워크숍 220만원 + 팀장님 추진비 30만원</p>
+                <p className="text-[10px] text-slate-400 mt-0.5">워크샵 예산 205만원 + 업무추진비 30만원</p>
               </div>
               <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700">
                 <DollarSign className="w-5 h-5" />
@@ -686,7 +686,7 @@ export const BudgetView: React.FC = () => {
                         {filteredTotal.toLocaleString()}원
                       </td>
                       <td colSpan={3} className="py-3 px-4 text-xs text-slate-500 font-normal">
-                        (전체 가용 예산 250만원 중 {((filteredTotal / TOTAL_BUDGET_LIMIT) * 100).toFixed(1)}% 배정)
+                        (전체 가용 예산 {(TOTAL_BUDGET_LIMIT / 10000).toLocaleString()}만원 중 {((filteredTotal / TOTAL_BUDGET_LIMIT) * 100).toFixed(1)}% 배정)
                       </td>
                     </tr>
                   </tfoot>
@@ -711,7 +711,7 @@ export const BudgetView: React.FC = () => {
                 <p className="text-xl font-extrabold text-slate-900 mt-1 font-mono">
                   {TOTAL_BUDGET_LIMIT.toLocaleString()}원
                 </p>
-                <p className="text-[10px] text-slate-400 mt-0.5">정산 한도 총액 기준</p>
+                <p className="text-[10px] text-slate-400 mt-0.5">워크샵 예산 205만원 + 업무추진비 30만원</p>
               </div>
               <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700">
                 <DollarSign className="w-5 h-5" />
@@ -1029,7 +1029,7 @@ export const BudgetView: React.FC = () => {
                         {filteredTotal.toLocaleString()}원
                       </td>
                       <td colSpan={3} className="py-3 px-4 text-xs text-slate-500 font-normal">
-                        (전체 가용 예산 250만원 중 {((filteredTotal / TOTAL_BUDGET_LIMIT) * 100).toFixed(1)}% 실제 집행)
+                        (전체 가용 예산 {(TOTAL_BUDGET_LIMIT / 10000).toLocaleString()}만원 중 {((filteredTotal / TOTAL_BUDGET_LIMIT) * 100).toFixed(1)}% 실제 집행)
                       </td>
                     </tr>
                   </tfoot>
@@ -1056,6 +1056,7 @@ export const BudgetView: React.FC = () => {
                 <p className="text-lg font-extrabold text-slate-900 mt-1 font-mono">
                   {TOTAL_BUDGET_LIMIT.toLocaleString()}원
                 </p>
+                <p className="text-[10px] text-slate-400 mt-0.5">워크샵 예산 205만원 + 업무추진비 30만원</p>
               </div>
 
               <div className="bg-emerald-50/60 p-4 rounded-xl border border-emerald-200/80">
