@@ -20,6 +20,7 @@ import {
   ChevronUp,
   ArrowRight,
   Users,
+  ExternalLink,
 } from 'lucide-react';
 import { useWorkshop } from '../context/WorkshopContext';
 import { ScheduleItem, WORKSHOP_MEMBERS } from '../types';
@@ -56,7 +57,19 @@ export const ScheduleView: React.FC = () => {
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState<'이동' | '식사' | '세션' | '팀빌딩' | '휴식' | '기타'>('세션');
   const [location, setLocation] = useState('');
+  const [mapUrl, setMapUrl] = useState('');
   const [description, setDescription] = useState('');
+
+  // Helper to ensure map URLs are valid clickable URLs
+  const formatMapUrl = (url?: string) => {
+    if (!url) return '';
+    const trimmed = url.trim();
+    if (!trimmed) return '';
+    if (/^https?:\/\//i.test(trimmed)) {
+      return trimmed;
+    }
+    return `https://${trimmed}`;
+  };
 
   // 08:00 to 23:00 timeline hours
   const START_HOUR = 8;
@@ -227,6 +240,7 @@ export const ScheduleView: React.FC = () => {
         title,
         category,
         location,
+        mapUrl: mapUrl.trim(),
         description,
       });
       setEditingItem(null);
@@ -237,6 +251,7 @@ export const ScheduleView: React.FC = () => {
         title,
         category,
         location,
+        mapUrl: mapUrl.trim(),
         description,
         order: schedules.length + 1,
       });
@@ -245,6 +260,7 @@ export const ScheduleView: React.FC = () => {
     setTitle('');
     setDescription('');
     setLocation('');
+    setMapUrl('');
     setShowAddModal(false);
   };
 
@@ -260,6 +276,7 @@ export const ScheduleView: React.FC = () => {
     setTime(`${startStr} - ${endStr}`);
     setTitle('');
     setLocation('');
+    setMapUrl('');
     setDescription('');
     setShowAddModal(true);
   };
@@ -271,6 +288,7 @@ export const ScheduleView: React.FC = () => {
     setTitle(item.title);
     setCategory(item.category);
     setLocation(item.location || '');
+    setMapUrl(item.mapUrl || '');
     setDescription(item.description || '');
     setShowAddModal(true);
   };
@@ -561,6 +579,7 @@ export const ScheduleView: React.FC = () => {
               setTitle('');
               setDescription('');
               setLocation('');
+              setMapUrl('');
               setShowAddModal(true);
             }}
             className="flex items-center space-x-1.5 px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold shadow-2xs transition shrink-0"
@@ -725,12 +744,45 @@ export const ScheduleView: React.FC = () => {
                             {item.title}
                           </h4>
 
-                          {/* Location */}
-                          {item.location && (
-                            <p className="text-[10px] text-emerald-700 font-medium flex items-center space-x-0.5 mt-0.5 truncate">
-                              <MapPin className="w-3 h-3 shrink-0" />
-                              <span className="truncate">{item.location}</span>
-                            </p>
+                          {/* Location & Map Link */}
+                          {(item.location || item.mapUrl) && (
+                            <div className="flex items-center space-x-1.5 mt-0.5 min-w-0">
+                              {item.location && (
+                                item.mapUrl ? (
+                                  <a
+                                    href={formatMapUrl(item.mapUrl)}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={(e) => e.stopPropagation()}
+                                    onMouseDown={(e) => e.stopPropagation()}
+                                    title="클릭 시 지도 바로 열기"
+                                    className="text-[10px] text-emerald-700 hover:text-emerald-900 font-medium flex items-center space-x-0.5 truncate hover:underline cursor-pointer"
+                                  >
+                                    <MapPin className="w-3 h-3 shrink-0 text-emerald-600" />
+                                    <span className="truncate">{item.location}</span>
+                                  </a>
+                                ) : (
+                                  <p className="text-[10px] text-emerald-700 font-medium flex items-center space-x-0.5 truncate">
+                                    <MapPin className="w-3 h-3 shrink-0" />
+                                    <span className="truncate">{item.location}</span>
+                                  </p>
+                                )
+                              )}
+                              {item.mapUrl && (
+                                <a
+                                  href={formatMapUrl(item.mapUrl)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={(e) => e.stopPropagation()}
+                                  onMouseDown={(e) => e.stopPropagation()}
+                                  title="클릭 시 지도 바로 열기 (새 창)"
+                                  className="inline-flex items-center space-x-0.5 px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-2xs transition shrink-0 cursor-pointer"
+                                >
+                                  <span>지도 열기</span>
+                                  <ExternalLink className="w-2.5 h-2.5" />
+                                </a>
+                              )}
+                            </div>
                           )}
 
                           {/* Description if height allows */}
@@ -863,12 +915,45 @@ export const ScheduleView: React.FC = () => {
                             {item.title}
                           </h4>
 
-                          {/* Location */}
-                          {item.location && (
-                            <p className="text-[10px] text-teal-700 font-medium flex items-center space-x-0.5 mt-0.5 truncate">
-                              <MapPin className="w-3 h-3 shrink-0" />
-                              <span className="truncate">{item.location}</span>
-                            </p>
+                          {/* Location & Map Link */}
+                          {(item.location || item.mapUrl) && (
+                            <div className="flex items-center space-x-1.5 mt-0.5 min-w-0">
+                              {item.location && (
+                                item.mapUrl ? (
+                                  <a
+                                    href={formatMapUrl(item.mapUrl)}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={(e) => e.stopPropagation()}
+                                    onMouseDown={(e) => e.stopPropagation()}
+                                    title="클릭 시 지도 바로 열기"
+                                    className="text-[10px] text-teal-700 hover:text-teal-900 font-medium flex items-center space-x-0.5 truncate hover:underline cursor-pointer"
+                                  >
+                                    <MapPin className="w-3 h-3 shrink-0 text-teal-600" />
+                                    <span className="truncate">{item.location}</span>
+                                  </a>
+                                ) : (
+                                  <p className="text-[10px] text-teal-700 font-medium flex items-center space-x-0.5 truncate">
+                                    <MapPin className="w-3 h-3 shrink-0" />
+                                    <span className="truncate">{item.location}</span>
+                                  </p>
+                                )
+                              )}
+                              {item.mapUrl && (
+                                <a
+                                  href={formatMapUrl(item.mapUrl)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={(e) => e.stopPropagation()}
+                                  onMouseDown={(e) => e.stopPropagation()}
+                                  title="클릭 시 지도 바로 열기 (새 창)"
+                                  className="inline-flex items-center space-x-0.5 px-1.5 py-0.5 rounded text-[9px] font-bold bg-teal-600 hover:bg-teal-700 text-white shadow-2xs transition shrink-0 cursor-pointer"
+                                >
+                                  <span>지도 열기</span>
+                                  <ExternalLink className="w-2.5 h-2.5" />
+                                </a>
+                              )}
+                            </div>
                           )}
 
                           {/* Description if height allows */}
@@ -958,11 +1043,41 @@ export const ScheduleView: React.FC = () => {
 
                           <h4 className="text-sm font-bold text-slate-900 mb-1">{item.title}</h4>
 
-                          {item.location && (
-                            <p className="text-xs text-emerald-700 font-medium flex items-center space-x-1 mb-1">
-                              <MapPin className="w-3.5 h-3.5 shrink-0" />
-                              <span>{item.location}</span>
-                            </p>
+                          {(item.location || item.mapUrl) && (
+                            <div className="flex items-center flex-wrap gap-2 mb-1.5">
+                              {item.location && (
+                                item.mapUrl ? (
+                                  <a
+                                    href={formatMapUrl(item.mapUrl)}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    title="클릭 시 지도 바로 열기"
+                                    className="text-xs text-emerald-800 hover:text-emerald-950 font-medium flex items-center space-x-1 hover:underline cursor-pointer"
+                                  >
+                                    <MapPin className="w-3.5 h-3.5 shrink-0 text-emerald-600" />
+                                    <span>{item.location}</span>
+                                  </a>
+                                ) : (
+                                  <p className="text-xs text-emerald-700 font-medium flex items-center space-x-1">
+                                    <MapPin className="w-3.5 h-3.5 shrink-0" />
+                                    <span>{item.location}</span>
+                                  </p>
+                                )
+                              )}
+                              {item.mapUrl && (
+                                <a
+                                  href={formatMapUrl(item.mapUrl)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  title="클릭 시 지도 바로 열기 (새 창)"
+                                  className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-lg text-[11px] font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-2xs transition cursor-pointer"
+                                >
+                                  <MapPin className="w-3 h-3 text-emerald-200" />
+                                  <span>지도 바로 열기</span>
+                                  <ExternalLink className="w-3 h-3" />
+                                </a>
+                              )}
+                            </div>
                           )}
 
                           {item.description && (
@@ -1054,11 +1169,41 @@ export const ScheduleView: React.FC = () => {
 
                           <h4 className="text-sm font-bold text-slate-900 mb-1">{item.title}</h4>
 
-                          {item.location && (
-                            <p className="text-xs text-teal-700 font-medium flex items-center space-x-1 mb-1">
-                              <MapPin className="w-3.5 h-3.5 shrink-0" />
-                              <span>{item.location}</span>
-                            </p>
+                          {(item.location || item.mapUrl) && (
+                            <div className="flex items-center flex-wrap gap-2 mb-1.5">
+                              {item.location && (
+                                item.mapUrl ? (
+                                  <a
+                                    href={formatMapUrl(item.mapUrl)}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    title="클릭 시 지도 바로 열기"
+                                    className="text-xs text-teal-800 hover:text-teal-950 font-medium flex items-center space-x-1 hover:underline cursor-pointer"
+                                  >
+                                    <MapPin className="w-3.5 h-3.5 shrink-0 text-teal-600" />
+                                    <span>{item.location}</span>
+                                  </a>
+                                ) : (
+                                  <p className="text-xs text-teal-700 font-medium flex items-center space-x-1">
+                                    <MapPin className="w-3.5 h-3.5 shrink-0" />
+                                    <span>{item.location}</span>
+                                  </p>
+                                )
+                              )}
+                              {item.mapUrl && (
+                                <a
+                                  href={formatMapUrl(item.mapUrl)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  title="클릭 시 지도 바로 열기 (새 창)"
+                                  className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-lg text-[11px] font-bold bg-teal-600 hover:bg-teal-700 text-white shadow-2xs transition cursor-pointer"
+                                >
+                                  <MapPin className="w-3 h-3 text-teal-200" />
+                                  <span>지도 바로 열기</span>
+                                  <ExternalLink className="w-3 h-3" />
+                                </a>
+                              )}
+                            </div>
                           )}
 
                           {item.description && (
@@ -1178,16 +1323,46 @@ export const ScheduleView: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">
-                    장소
+                    장소명 (집결지)
                   </label>
                   <input
                     type="text"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    placeholder="예: 숙소 대회의실"
+                    placeholder="예: 회사 로비, 숙소 대회의실"
                     className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-bold text-slate-700 flex items-center space-x-1">
+                    <MapPin className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>지도 링크 (집결지 URL)</span>
+                  </label>
+                  {mapUrl.trim() && (
+                    <a
+                      href={formatMapUrl(mapUrl)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] font-semibold text-emerald-600 hover:text-emerald-700 flex items-center space-x-0.5 hover:underline"
+                    >
+                      <span>링크 열기 테스트</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  )}
+                </div>
+                <input
+                  type="url"
+                  value={mapUrl}
+                  onChange={(e) => setMapUrl(e.target.value)}
+                  placeholder="예: https://naver.me/... 또는 https://kko.to/... 또는 구글 지도 링크"
+                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500 font-mono"
+                />
+                <p className="text-[11px] text-slate-500 mt-1">
+                  💡 네이버 지도, 카카오맵 공유 링크를 넣어두면 일정표에서 클릭 한 번으로 바로 지도가 열립니다.
+                </p>
               </div>
 
               <div>
