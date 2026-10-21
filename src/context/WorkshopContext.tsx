@@ -113,7 +113,7 @@ export const WorkshopProvider: React.FC<{ children: React.ReactNode }> = ({
     return '유옥';
   });
 
-  const [activeTab, setActiveTab] = useState<ActiveTab>('checklist');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('schedule');
 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [schedules, setSchedules] = useState<ScheduleItem[]>([]);

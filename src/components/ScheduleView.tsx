@@ -16,13 +16,28 @@ import {
   Layers,
   List,
   ChevronRight,
+  ChevronDown,
+  ChevronUp,
   ArrowRight,
+  Users,
 } from 'lucide-react';
 import { useWorkshop } from '../context/WorkshopContext';
-import { ScheduleItem } from '../types';
+import { ScheduleItem, WORKSHOP_MEMBERS } from '../types';
 
 export const ScheduleView: React.FC = () => {
-  const { schedules, addSchedule, updateSchedule, deleteSchedule } = useWorkshop();
+  const {
+    schedules,
+    addSchedule,
+    updateSchedule,
+    deleteSchedule,
+    groups,
+    setActiveTab,
+  } = useWorkshop();
+
+  const [isActivityGroupsOpen, setIsActivityGroupsOpen] = useState(true);
+
+  // Filter activity groups (활동조)
+  const activityGroups = groups.filter((g) => g.type === 'activity');
 
   // View preferences
   const [viewMode, setViewMode] = useState<'timeline' | 'list'>('timeline');
@@ -278,6 +293,143 @@ export const ScheduleView: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* 🎯 Activity Groups Section (활동조) */}
+      <section className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden">
+        <div className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gradient-to-r from-slate-50/90 via-emerald-50/30 to-teal-50/20 border-b border-slate-100">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-lg shadow-xs shrink-0">
+              🎯
+            </div>
+            <div>
+              <div className="flex items-center space-x-2">
+                <h3 className="text-base font-bold text-slate-900">
+                  워크숍 활동조 안내
+                </h3>
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+                  총 {activityGroups.length}개 조 · 14명
+                </span>
+              </div>
+              <p className="text-xs text-slate-500 mt-0.5">
+                일정표 상의 팀빌딩 세션 및 야외 미션 시 아래 활동조로 함께합니다.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-2 shrink-0">
+            <button
+              type="button"
+              onClick={() => setActiveTab('teams')}
+              className="inline-flex items-center space-x-1.5 px-3 py-1.5 text-xs font-bold text-emerald-700 bg-white hover:bg-emerald-50 rounded-xl border border-emerald-200/90 shadow-2xs transition"
+              title="조 편성 및 차량조 관리 화면으로 이동"
+            >
+              <Users className="w-3.5 h-3.5 text-emerald-600" />
+              <span>조 편성 & 차량조 관리</span>
+              <ChevronRight className="w-3.5 h-3.5 text-emerald-400" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsActivityGroupsOpen(!isActivityGroupsOpen)}
+              className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl border border-slate-200/80 transition"
+              title={isActivityGroupsOpen ? '활동조 접기' : '활동조 펼치기'}
+            >
+              {isActivityGroupsOpen ? (
+                <ChevronUp className="w-4 h-4" />
+              ) : (
+                <ChevronDown className="w-4 h-4" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {isActivityGroupsOpen && (
+          <div className="p-4 sm:p-5">
+            {activityGroups.length === 0 ? (
+              <div className="text-center py-6 text-xs text-slate-400">
+                아직 등록된 활동조가 없습니다.{' '}
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('teams')}
+                  className="text-emerald-600 font-bold underline hover:text-emerald-700 ml-1"
+                >
+                  조 편성 탭에서 조를 생성해보세요.
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+                {activityGroups.map((group, idx) => {
+                  const members = group.members || [];
+
+                  const groupColors = [
+                    { border: 'border-rose-200/80 hover:border-rose-300' },
+                    { border: 'border-amber-200/80 hover:border-amber-300' },
+                    { border: 'border-blue-200/80 hover:border-blue-300' },
+                    { border: 'border-emerald-200/80 hover:border-emerald-300' },
+                  ];
+                  const colorStyle = groupColors[idx % groupColors.length];
+
+                  return (
+                    <div
+                      key={group.id || idx}
+                      className={`flex flex-col justify-between rounded-xl border p-3.5 bg-white ${colorStyle.border} shadow-2xs hover:shadow-xs transition-all`}
+                    >
+                      <div>
+                        <div className="flex items-center justify-between gap-1.5 mb-2">
+                          <h4 className="text-sm font-bold text-slate-900 truncate">
+                            {group.groupName}
+                          </h4>
+                          <span className="text-[11px] font-bold px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200/70 shrink-0">
+                            {members.length}명
+                          </span>
+                        </div>
+
+                        {group.notes && (
+                          <p className="text-[11px] text-slate-600 bg-slate-50 px-2 py-1.5 rounded-lg border border-slate-100 mb-3 flex items-start space-x-1" title={group.notes}>
+                            <span className="shrink-0 text-amber-500 font-bold">💡</span>
+                            <span className="truncate">{group.notes}</span>
+                          </p>
+                        )}
+
+                        {/* Members Chips */}
+                        <div className="flex flex-wrap gap-1.5 pt-1">
+                          {members.length === 0 ? (
+                            <span className="text-[11px] text-slate-400 py-1">
+                              조원이 아직 배정되지 않았습니다.
+                            </span>
+                          ) : (
+                            members.map((memberName) => {
+                              const mInfo = WORKSHOP_MEMBERS.find((m) => m.name === memberName);
+                              return (
+                                <span
+                                  key={memberName}
+                                  className={`inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold border transition ${
+                                    mInfo
+                                      ? mInfo.badgeBg
+                                      : 'bg-slate-100 text-slate-700 border-slate-200'
+                                  }`}
+                                >
+                                  <span
+                                    className={`w-3.5 h-3.5 rounded-full ${
+                                      mInfo?.avatarBg || 'bg-emerald-500'
+                                    } text-white flex items-center justify-center text-[9px] font-bold`}
+                                  >
+                                    {memberName[0]}
+                                  </span>
+                                  <span>{memberName}</span>
+                                </span>
+                              );
+                            })
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+      </section>
+
       {/* Header & Controls */}
       <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
