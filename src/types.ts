@@ -60,6 +60,7 @@ export interface ScheduleItem {
   title: string;
   description?: string;
   location?: string;
+  mapUrl?: string;
   category: '이동' | '식사' | '세션' | '팀빌딩' | '휴식' | '기타';
   order: number;
 }
